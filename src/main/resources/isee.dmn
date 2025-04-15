@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kie.apache.org/dmn/_42722E06-413B-4C28-AB18-F9EE38C05D8B" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_6EB61F50-0CEE-4254-A6C2-DA04AF60343F" name="Calcolo Isee" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kie.apache.org/dmn/_42722E06-413B-4C28-AB18-F9EE38C05D8B">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_4D528908-EF2F-4EF6-8A41-D1BB735A5DBF" name="tUtente" isCollection="false">
+    <dmn:itemComponent id="_B292AFE5-CD75-4ADA-9EC5-F7A4930D4D12" name="family" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_19BBB2BA-1DBB-4421-BF7D-3FB72B64F8AB" name="reddito" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:inputData id="_42DCFF8C-C9F9-4F8A-8048-50067DAE3D96" name="utente">
+    <dmn:extensionElements/>
+    <dmn:variable id="_E2241608-4E45-4046-8B8E-1FB7A95963AE" name="utente" typeRef="tUtente"/>
+  </dmn:inputData>
+  <dmn:decision id="_70E9F2E3-97AB-4030-88EC-8027FFA113A1" name="CalcoloIsee">
+    <dmn:extensionElements/>
+    <dmn:variable id="_E6E5397A-716C-4910-97C1-48258CA05693" name="CalcoloIsee" typeRef="number"/>
+    <dmn:informationRequirement id="_4811C171-9BB9-4ACC-B3BD-1AF4BDD98C66">
+      <dmn:requiredInput href="#_42DCFF8C-C9F9-4F8A-8048-50067DAE3D96"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_530610C2-24A1-4527-B9A5-C2605EADE20E" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_258FC286-1B3E-4EB3-94FE-438B55A56F87">
+        <dmn:inputExpression id="_7BDC9A5C-E7CD-4866-98D7-6BE0DF395142" typeRef="number">
+          <dmn:text>utente.reddito</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_BFACEF65-504D-43C2-BA0B-08137DF713B9">
+        <dmn:inputExpression id="_ADDB37DA-65D3-4260-850B-F191CF4F9D9C" typeRef="number">
+          <dmn:text>utente.family</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_CEEA3A5D-748D-43B6-9BCC-8A146C6260FE"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_DCE21F00-81C8-458B-B744-8CA9032B7BBC">
+        <dmn:inputEntry id="_B7BDC09C-3426-4712-8A82-A9E30F28DB81">
+          <dmn:text>[0..15000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_21037E50-AFF9-4EA6-90D3-0392F27F2E21">
+          <dmn:text>[0..3)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_AB4DFCA5-3492-4A58-A930-2B5638C2DD97">
+          <dmn:text>15000</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_37578CEC-3787-45AE-929D-01D05A76D3DD">
+        <dmn:inputEntry id="_0612CE04-5F76-4B6D-BBAD-C3101C5229DF">
+          <dmn:text>[0..15000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_19F76EBF-019C-4E0A-8C8E-4BD7BB6FC3E3">
+          <dmn:text>&gt;=3</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_110BC8D7-A1A2-41F0-9019-EFF8153D058F">
+          <dmn:text>20000</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_B4DFDE35-BBFB-4DD9-8557-0184CD05FCE8">
+        <dmn:inputEntry id="_192B1667-628F-447B-8AD1-86E46AC60FE5">
+          <dmn:text>(15000..30000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_ADF43119-84AA-4BD2-B275-4955DFBA81C5">
+          <dmn:text>&gt;1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_FC660892-FEC6-4DF9-B6FE-5398635A8172">
+          <dmn:text>25000</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_F6D461E8-F9B9-47C7-BF17-A43BABF134C3">
+        <dmn:inputEntry id="_C13991AC-D0DD-4C30-982A-4092AFF2027E">
+          <dmn:text>(30000..40000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_7393389D-0008-47A8-9FEA-44DA59617057">
+          <dmn:text>[0..3)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_80F6BBE4-1391-4425-A4F8-9ED638B8C473">
+          <dmn:text>30000</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_DF468B30-9488-4335-83AF-25F0F2E31674">
+        <dmn:inputEntry id="_B2CD62A9-37E6-404C-8253-A16A94FB2FC8">
+          <dmn:text>(40000..50000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_234611D5-8492-4432-AB08-64D2166C3695">
+          <dmn:text>[0..3)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_DDEC84AF-B2E8-4D47-BD8F-B5E332695BF7">
+          <dmn:text>100000</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_630A3EA8-A9D9-4120-A4E4-E29547CAF3BB">
+        <dmn:inputEntry id="_36D5D883-7DA9-4E35-A83C-D40CBC2EB8A6">
+          <dmn:text>&gt;50000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_F207C86F-1FF2-41B0-9E22-04B164E023D7">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_BA741983-1033-4E46-ABB8-973BA1EDA4F9">
+          <dmn:text>150000</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_3DE61709-1C2C-41D4-9412-22728F241652" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_530610C2-24A1-4527-B9A5-C2605EADE20E">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_42DCFF8C-C9F9-4F8A-8048-50067DAE3D96" dmnElementRef="_42DCFF8C-C9F9-4F8A-8048-50067DAE3D96" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="241" y="281" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_70E9F2E3-97AB-4030-88EC-8027FFA113A1" dmnElementRef="_70E9F2E3-97AB-4030-88EC-8027FFA113A1" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="241" y="126" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_4811C171-9BB9-4ACC-B3BD-1AF4BDD98C66" dmnElementRef="_4811C171-9BB9-4ACC-B3BD-1AF4BDD98C66">
+        <di:waypoint x="291" y="306"/>
+        <di:waypoint x="291" y="176"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>
