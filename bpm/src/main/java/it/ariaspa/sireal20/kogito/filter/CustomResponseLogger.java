@@ -1,6 +1,8 @@
 package it.ariaspa.sireal20.kogito.filter;
 
+import io.opentelemetry.api.trace.Span;
 import io.quarkus.logging.Log;
+import it.ariaspa.sireal20.kogito.filter.model.AppLog;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.ContainerResponseContext;
@@ -19,11 +21,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
 @Provider
 public class CustomResponseLogger implements ContainerRequestFilter, ContainerResponseFilter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomResponseLogger.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger("APP");
 
     @Context
     private Providers providers;
@@ -31,7 +35,18 @@ public class CustomResponseLogger implements ContainerRequestFilter, ContainerRe
 
     @Override
     public void filter(ContainerRequestContext requestContext)  {
-        Log.info(requestContext.getRequest().getMethod());
+        long startTime = System.currentTimeMillis();
+        String server="N/A";
+        try {
+            server = InetAddress.getLocalHost().getCanonicalHostName();
+        } catch (UnknownHostException var3) {
+
+        }
+        AppLog app = new AppLog(AppLog.Type.START_SRV,1024);
+        app.setTimestamp(startTime);
+        app.setServer(server);
+        app.setIdDc(Span.current().getSpanContext().getTraceId()+","+Span.current().getSpanContext().getSpanId());
+        //app.setIdCoop(user.getTrackId());
         InputStream is = requestContext.getEntityStream();
         byte[] data = null;
         try {
@@ -40,20 +55,39 @@ public class CustomResponseLogger implements ContainerRequestFilter, ContainerRe
             Log.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        String body = new String(data, StandardCharsets.UTF_8);
-        Log.info("Request Outgoing message "+ body);
+        app.setIn( new String(data, StandardCharsets.UTF_8));
         requestContext.setEntityStream(new ByteArrayInputStream(data));
     }
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+        long startTime = System.currentTimeMillis();
+        String server="N/A";
+        try {
+            server = InetAddress.getLocalHost().getCanonicalHostName();
+        } catch (UnknownHostException var3) {
 
-        LOGGER.info("Method {}",requestContext.getRequest().getMethod());
-        String message = new String("Response Outgoing message").concat(System.lineSeparator());
-        if (responseContext.getMediaType() != null)
-            message = message.concat("Content-Type: ").concat(responseContext.getMediaType().toString()).concat(System.lineSeparator());
-        message = message.concat("Payload: ").concat(payloadMessage(responseContext)).concat(System.lineSeparator());
-        LOGGER.info(message);
+        }
+        AppLog app = new AppLog(AppLog.Type.START_SRV,1024);
+        app.setTimestamp(startTime);
+        app.setServer(server);
+        app.setIdDc(Span.current().getSpanContext().getTraceId()+","+Span.current().getSpanContext().getSpanId());
+        InputStream is = requestContext.getEntityStream();
+        byte[] data = null;
+        try {
+            data = is.readAllBytes();
+        } catch (IOException e) {
+            Log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        app.setIn( new String(data, StandardCharsets.UTF_8));
+        LOGGER.info(app.toString());
+        app = new AppLog(AppLog.Type.END_SRV,1024);
+        app.setTimestamp(startTime);
+        app.setServer(server);
+        app.setIdDc(Span.current().getSpanContext().getTraceId()+","+Span.current().getSpanContext().getSpanId());
+        app.setOut(payloadMessage(responseContext));
+        LOGGER.info(app.toString());
     }
 
     private String payloadMessage(ContainerResponseContext responseContext) throws IOException {

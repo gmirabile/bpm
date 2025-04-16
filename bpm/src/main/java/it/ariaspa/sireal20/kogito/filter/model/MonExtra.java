@@ -1,4 +1,4 @@
-package it.ariaspa.sireal20.kogito.filter;
+package it.ariaspa.sireal20.kogito.filter.model;
 
 import java.util.HashMap;
 import java.util.Map;

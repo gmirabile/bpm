@@ -2,11 +2,13 @@ package it.ariaspa.sireal20.kogito.filter;
 
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanId;
-import io.quarkus.logging.Log;
 import io.quarkus.vertx.web.RouteFilter;
 import io.vertx.codegen.annotations.Nullable;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
+import it.ariaspa.sireal20.kogito.filter.model.AntPathRequestMatcher;
+import it.ariaspa.sireal20.kogito.filter.model.AppLog;
+import it.ariaspa.sireal20.kogito.filter.model.MonLog;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import org.slf4j.Logger;
@@ -17,8 +19,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
-import static it.ariaspa.sireal20.kogito.filter.MonLog.Type.START_SRV;
 
 public class LoggingRouteFilter {
 

@@ -1,4 +1,4 @@
-package it.ariaspa.sireal20.kogito.filter;
+package it.ariaspa.sireal20.kogito.filter.model;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 
@@ -356,7 +356,7 @@ public class MonLog {
             return (Long)this.tps.get("DB");
         }
 
-        protected static enum Type {
+        public static enum Type {
             START_SRV,
             END_SRV,
             START_CLI,

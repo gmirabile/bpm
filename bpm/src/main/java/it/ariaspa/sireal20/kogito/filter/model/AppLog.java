@@ -1,8 +1,7 @@
-package it.ariaspa.sireal20.kogito.filter;
+package it.ariaspa.sireal20.kogito.filter.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -158,7 +157,7 @@ public class AppLog {
         return this.out;
     }
 
-    protected static enum Type {
+    public static enum Type {
         START_SRV,
         END_SRV,
         START_CLI,

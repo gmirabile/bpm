@@ -6,18 +6,21 @@ import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
 @ApplicationScoped
 public class Service {
+    private static final Logger Log = LoggerFactory.getLogger(Service.class);
 
     @Inject
     Mailer mailer;
 
     public Users contratti(Users user) {
 
-        Log.info("Servizio Contratti invocato");
+        System.out.println("Servizio Contratti invocato");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -30,7 +33,7 @@ public class Service {
 
     public Users preparazione(Users utente) {
 
-        Log.info("Preparazione Contratti invocato");
+        System.out.println("Preparazione Contratti invocato");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -47,7 +50,7 @@ public class Service {
                         "Ciao "+user.getNome()+" "+user.getCognome()+", ti invitiamo ad aggiornare i tuoi dati entro la fine dell'anno."
                 )
         );
-        Log.info("Invio info Postalizzazione Contratti");
+        System.out.println("Invio info Postalizzazione Contratti");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -75,8 +78,8 @@ public class Service {
         indirizzo.setNazione("Italia");
         user.setIndirizzo(indirizzo);
         user.setFamigliari(new ArrayList<>());
-        Log.info("User service called");
-        Log.info("User: " + user.getNome() + " " + user.getCognome());
+        System.out.println("User service called");
+        System.out.println("User: " + user.getNome() + " " + user.getCognome());
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -89,7 +92,7 @@ public class Service {
 
     public void archiviazione() {
 
-        Log.info("Servizio archiviazione invocato");
+        System.out.println("Servizio archiviazione invocato");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -100,7 +103,7 @@ public class Service {
 
     public void revoca() {
 
-        Log.info("Servizio archiviazione invocato");
+        System.out.println("Servizio archiviazione invocato");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
